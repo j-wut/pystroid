@@ -4,6 +4,8 @@
 import pygame
 
 from constants import *
+from player import Player
+
 
 def main():
     pygame.init()
@@ -11,13 +13,20 @@ def main():
     clock = pygame.time.Clock()
     deltaTime = 0
     i = 0
+    inc = 1
+    player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        pygame.Surface.fill(screen,(i%255,i%255,i%255))
+        pygame.Surface.fill(screen,(i,i,i))
+        player.draw(screen)
         pygame.display.flip()
-        i += 1
+        if i >= 255:
+            inc = -1
+        elif i <= 0:
+            inc = 1
+        i += inc
         deltaTime = clock.tick(60)
 
 
