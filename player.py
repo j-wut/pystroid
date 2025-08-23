@@ -1,7 +1,7 @@
 import pygame
 
 from circleshape import CircleShape
-from constants import PLAYER_RADIUS, PLAYER_TURN_ACCEL, PLAYER_ACCEL, PLAYER_TURN_DRAG, PLAYER_DRAG
+from constants import PLAYER_RADIUS, PLAYER_TURN_ACCEL, PLAYER_ACCEL, PLAYER_TURN_DRAG, PLAYER_DRAG, SCREEN_WIDTH, SCREEN_HEIGHT
 
 
 class Player(CircleShape):
@@ -52,6 +52,7 @@ class Player(CircleShape):
 
     def move(self, dt):
         self.position +=  self.v * dt
+        self.position = pygame.Vector2(self.position[0]%SCREEN_WIDTH,self.position[1]%SCREEN_HEIGHT)
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
