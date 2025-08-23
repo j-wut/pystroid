@@ -15,15 +15,22 @@ def main():
     deltaTime = 0
     i = 0
     inc = 1
-    player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    loggable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable, loggable)
+    player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)    
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
         pygame.Surface.fill(screen,(i,i,i))
-        player.draw(screen)
-        player.update(deltaTime)
-        player.log(screen, font)
+        updatable.update(deltaTime)
+        for d in drawable:
+            d.draw(screen)
+        for l in loggable:
+            l.log(screen, font)
         pygame.display.flip()
         if i >= 64:
             inc = -1
