@@ -11,6 +11,7 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode(size=(SCREEN_WIDTH,SCREEN_HEIGHT))
     clock = pygame.time.Clock()
+    font = pygame.font.SysFont('Arial', 30)
     deltaTime = 0
     i = 0
     inc = 1
@@ -22,6 +23,7 @@ def main():
         pygame.Surface.fill(screen,(i,i,i))
         player.draw(screen)
         player.update(deltaTime)
+        player.log(screen, font)
         pygame.display.flip()
         if i >= 64:
             inc = -1
