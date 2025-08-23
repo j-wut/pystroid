@@ -21,13 +21,14 @@ def main():
                 return
         pygame.Surface.fill(screen,(i,i,i))
         player.draw(screen)
+        player.update(deltaTime)
         pygame.display.flip()
-        if i >= 255:
+        if i >= 64:
             inc = -1
         elif i <= 0:
             inc = 1
         i += inc
-        deltaTime = clock.tick(60)
+        deltaTime = clock.tick(60)/1000
 
 
 if __name__ == "__main__":
