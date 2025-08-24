@@ -1,14 +1,14 @@
 import pygame
 
 from circleshape import CircleShape
-from constants import PLAYER_RADIUS, PLAYER_TURN_ACCEL, PLAYER_ACCEL, PLAYER_TURN_DRAG, PLAYER_DRAG, SCREEN_WIDTH, SCREEN_HEIGHT
-
+from constants import PLAYER_RADIUS, PLAYER_TURN_ACCEL, PLAYER_ACCEL, PLAYER_TURN_DRAG, PLAYER_DRAG, SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER_SHOOT_SPEED
+from shot import Shot
 
 class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x,y,PLAYER_RADIUS)
-        self.initx = x;
-        self.inity = y;
+        self.initx = x
+        self.inity = y
         self.rotation = 0
         self.angularV = 0
 
@@ -53,12 +53,13 @@ class Player(CircleShape):
         self.position +=  self.velocity * dt
         self.position = pygame.Vector2(self.position[0]%SCREEN_WIDTH,self.position[1]%SCREEN_HEIGHT)
 
+    def shoot(self):
+        shot = Shot(self.position.x, self.position.y)
+        shot.velocity = pygame.math.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOOT_SPEED + self.velocity
+
     def update(self, dt):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_SPACE]:
-            self.position = pygame.Vector2(self.initx, self.inity)
-        
         if keys[pygame.K_a]:
             self.angularV -= PLAYER_TURN_ACCEL
         if keys[pygame.K_d]:
@@ -72,3 +73,7 @@ class Player(CircleShape):
             self.velocity -= PLAYER_ACCEL * pygame.Vector2(0, 1).rotate(self.rotation)
         self.move_drag(dt)
         self.move(dt)
+        
+        if keys[pygame.K_SPACE]:
+            self.shoot()
+        
