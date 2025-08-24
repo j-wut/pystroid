@@ -39,6 +39,11 @@ def main():
             d.draw(screen)
         for l in loggable:
             l.log(screen, font)
+
+        for a in asteroids:
+            if player.check_collision(a):
+                return "Game Over!"
+
         pygame.display.flip()
         if i >= 64:
             inc = -1
@@ -49,4 +54,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    print(main())
