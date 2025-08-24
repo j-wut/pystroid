@@ -1,4 +1,3 @@
-
 import pygame
 import random
 
@@ -23,8 +22,16 @@ class Asteroid(CircleShape):
         splitRatio = random.uniform(0.4, 0.6)
         if self.radius >= ASTEROID_MIN_RADIUS * 2:
             a1 = Asteroid(self.position.x, self.position.y, self.radius * splitRatio)
-            a2 = Asteroid(self.position.x,self.position.y, self.radius * (1-splitRatio))
+            a2 = Asteroid(
+                self.position.x, self.position.y, self.radius * (1 - splitRatio)
+            )
             a1.velocity = self.velocity.copy()
             a2.velocity = self.velocity.copy()
-            a1.velocity += shot.velocity.rotate(45) * shot.radius / (2 * self.radius * splitRatio)
-            a2.velocity -= shot.velocity.rotate(45) * shot.radius / (2 * self.radius * (1 - splitRatio))
+            a1.velocity += (
+                shot.velocity.rotate(45) * shot.radius / (2 * self.radius * splitRatio)
+            )
+            a2.velocity -= (
+                shot.velocity.rotate(45)
+                * shot.radius
+                / (2 * self.radius * (1 - splitRatio))
+            )
