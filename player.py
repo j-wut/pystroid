@@ -1,7 +1,7 @@
 import pygame
 
 from circleshape import CircleShape
-from constants import PLAYER_RADIUS, PLAYER_TURN_ACCEL, PLAYER_ACCEL, PLAYER_TURN_DRAG, PLAYER_DRAG, SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER_SHOOT_SPEED
+from constants import PLAYER_RADIUS, PLAYER_TURN_ACCEL, PLAYER_ACCEL, PLAYER_TURN_DRAG, PLAYER_DRAG, SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER_SHOOT_SPEED, PLAYER_CD
 from shot import Shot
 
 class Player(CircleShape):
@@ -11,6 +11,7 @@ class Player(CircleShape):
         self.inity = y
         self.rotation = 0
         self.angularV = 0
+        self.cd = 0
 
     def log(self, screen, font):
         text_surface = font.render(f"position: {self.position}", True, (255, 255, 255))
@@ -54,8 +55,10 @@ class Player(CircleShape):
         self.position = pygame.Vector2(self.position[0]%SCREEN_WIDTH,self.position[1]%SCREEN_HEIGHT)
 
     def shoot(self):
-        shot = Shot(self.position.x, self.position.y)
-        shot.velocity = pygame.math.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOOT_SPEED + self.velocity
+        if self.cd <= 0:
+            shot = Shot(self.position.x, self.position.y)
+            shot.velocity = pygame.math.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOOT_SPEED + self.velocity
+            self.cd = PLAYER_CD
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
@@ -76,4 +79,5 @@ class Player(CircleShape):
         
         if keys[pygame.K_SPACE]:
             self.shoot()
+        self.cd -= dt
         
