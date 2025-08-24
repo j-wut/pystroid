@@ -11,13 +11,12 @@ class Player(CircleShape):
         self.inity = y;
         self.rotation = 0
         self.angularV = 0
-        self.v = pygame.Vector2(0, 0)
 
     def log(self, screen, font):
         text_surface = font.render(f"position: {self.position}", True, (255, 255, 255))
         screen.blit(text_surface, (10, 10))
 
-        text_surface = font.render(f"v: {self.v}", True, (254, 255, 255))
+        text_surface = font.render(f"v: {self.velocity}", True, (254, 255, 255))
         text_rect = text_surface.get_rect()
         screen.blit(text_surface, (10,40))
 
@@ -44,14 +43,14 @@ class Player(CircleShape):
         self.angularV *= pow(PLAYER_TURN_DRAG, dt)
 
     def move_drag(self, dt):
-        self.v *= pow(PLAYER_DRAG, dt)
+        self.velocity *= pow(PLAYER_DRAG, dt)
     
     def rotate(self, dt):
         self.rotation += self.angularV * dt
         self.rotation %= 360
 
     def move(self, dt):
-        self.position +=  self.v * dt
+        self.position +=  self.velocity * dt
         self.position = pygame.Vector2(self.position[0]%SCREEN_WIDTH,self.position[1]%SCREEN_HEIGHT)
 
     def update(self, dt):
@@ -68,8 +67,8 @@ class Player(CircleShape):
         self.rotate(dt)
 
         if keys[pygame.K_w]:
-                self.v += PLAYER_ACCEL * pygame.Vector2(0, 1).rotate(self.rotation)
+                self.velocity += PLAYER_ACCEL * pygame.Vector2(0, 1).rotate(self.rotation)
         if keys[pygame.K_s]:
-            self.v -= PLAYER_ACCEL * pygame.Vector2(0, 1).rotate(self.rotation)
+            self.velocity -= PLAYER_ACCEL * pygame.Vector2(0, 1).rotate(self.rotation)
         self.move_drag(dt)
         self.move(dt)
