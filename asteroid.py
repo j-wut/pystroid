@@ -25,8 +25,8 @@ class Asteroid(CircleShape):
             a2 = Asteroid(
                 self.position.x, self.position.y, self.radius * (1 - splitRatio)
             )
-            a1.velocity = self.velocity.copy()
-            a2.velocity = self.velocity.copy()
+            a1.velocity = self.velocity.copy() * 1.5
+            a2.velocity = self.velocity.copy() * 1.5
             a1.velocity += (
                 shot.velocity.rotate(45) * shot.radius / (2 * self.radius * splitRatio)
             )
